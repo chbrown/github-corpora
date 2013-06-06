@@ -1,6 +1,6 @@
 # GitHub corpora
 
-Scripts for crawling github API and resulting data.
+Scripts for crawling the GitHub API and resulting data (which is all public).
 
     export GITHUB_TOKEN=YTaSQhwUqb5gyNKCOXfveplH4GVcEsLxBjW0rnio
     python repositories.py repositories.json
