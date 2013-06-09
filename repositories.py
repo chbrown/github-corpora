@@ -21,8 +21,12 @@ with open(filename, 'a') as repos_out:
         r = requests.get('https://api.github.com/repositories', headers=headers, params=dict(since=since))
         entries = r.json()
 
-        print '%d since %d (%s/%s)' % (len(entries), since,
-            r.headers['x-ratelimit-remaining'], r.headers['x-ratelimit-limit'])
+        remaining = r.headers.get('x-ratelimit-remaining', '0')
+        limit = r.headers.get('x-ratelimit-limit', '0')
+        print '%d since %d (%s/%s)' % (len(entries), since, remaining, limit)
+        if len(entries) < 10:
+            print 'Too few entries'
+            print entries
         for entry in entries:
             owner = entry['owner'] or {'login': 'N/A', 'id': 'N/A', 'type': 'N/A'}
             repo = {
