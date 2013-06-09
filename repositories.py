@@ -24,9 +24,15 @@ with open(filename, 'a') as repos_out:
         remaining = r.headers.get('x-ratelimit-remaining', '0')
         limit = r.headers.get('x-ratelimit-limit', '0')
         print '%d since %d (%s/%s)' % (len(entries), since, remaining, limit)
+        if 'message' in entries and entries['message'] == 'Bad credentials':
+            print 'Bad credentials ???'
+            print r
+            continue
+
         if len(entries) < 10:
             print 'Too few entries'
             print entries
+
         for entry in entries:
             owner = entry['owner'] or {'login': 'N/A', 'id': 'N/A', 'type': 'N/A'}
             repo = {
