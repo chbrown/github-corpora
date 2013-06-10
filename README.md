@@ -14,6 +14,8 @@ mostly deleting the redundant urls that can be predicted, presumably, given the 
     # count some other stuff like that
     repository_counts.sh
 
+Based on IDs, there are currently ~10 million Github repositories, about 52% of which are public.
+
 ## License
 
 Code is MIT Licensed, data is licensed with whatever the GitHub API is under.
