@@ -4,8 +4,6 @@ import json
 import requests
 
 
-filename = sys.argv[1]
-
 headers = dict(Authorization='token %s' % os.environ['GITHUB_TOKEN'])
 
 
@@ -29,10 +27,10 @@ class FileSequence(object):
         self.pattern = pattern
         self.flag = flag
 
-        if flag('a'):
+        if flag == 'a':
             # seek to the end of the data
             # we want index to land on the last existing file
-            for index in range(1000):
+            for index in range(1, 1000):
                 # e.g.: a-01.txt a-02.txt a-03.txt a-04.txt
                 if not os.path.exists(self.pattern % index):
                     break
@@ -43,8 +41,9 @@ class FileSequence(object):
 
     def __enter__(self):
         self.next()
+        return self
 
-    def __exit__(self):
+    def __exit__(self, type, value, traceback):
         self.current_file.close()
 
     def next(self):
@@ -52,7 +51,7 @@ class FileSequence(object):
         if self.current_file:
             self.current_file.close()
         self.current_file = open(self.current_path, self.flag)
-        self.current_bytes = 0
+        self.current_bytes = self.current_file.tell()
         self.index += 1
 
     def write(self, line):
@@ -81,6 +80,9 @@ entries = [dict(id=0)] + [json.loads(line) for line in file_sequence.tail()]
 
 # since = ['id'] if line else 0
 since = entries[-1]['id']
+
+# print since
+# exit()
 
 with file_sequence as output:
     while True:
