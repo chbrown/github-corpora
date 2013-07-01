@@ -14,7 +14,7 @@ def next(old=None):
     if old:
         old.close()
     index += 1
-    return open('respositories-%02d.json' % index, 'w')
+    return open('repositories-%02d.json' % index, 'w')
 
 current = next()
 

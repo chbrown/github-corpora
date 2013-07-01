@@ -73,7 +73,7 @@ class FileSequence(object):
             return []
 
 
-file_sequence = FileSequence('respositories-%02d.json', 'a')
+file_sequence = FileSequence('repositories-%02d.json', 'a')
 
 # sequence.tail() may very well return an empty list
 entries = [dict(id=0)] + [json.loads(line) for line in file_sequence.tail()]
