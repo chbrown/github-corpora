@@ -2,6 +2,7 @@ import os
 import sys
 import json
 import requests
+import httplib
 
 
 headers = dict(Authorization='token %s' % os.environ['GITHUB_TOKEN'])
@@ -86,7 +87,13 @@ since = entries[-1]['id']
 
 with file_sequence as output:
     while True:
-        r = requests.get('https://api.github.com/repositories', headers=headers, params=dict(since=since))
+        try:
+            r = requests.get('https://api.github.com/repositories', headers=headers, params=dict(since=since))
+        except httplib.IncompleteRead, exc:
+            print exc
+            print 'continuing'
+            continue
+
         entries = r.json()
 
         remaining = r.headers.get('x-ratelimit-remaining', '0')
