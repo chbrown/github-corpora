@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+git add repositories-*.json
+git commit -m "epoch=`date +%s`"
+git push
