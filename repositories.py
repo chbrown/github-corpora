@@ -9,7 +9,7 @@ headers = dict(Authorization='token %s' % os.environ['GITHUB_TOKEN'])
 
 filenames = filesequence.interpolator('data/repositories-%02d.json', xrange(1, 100))
 
-with filesequence.open(filenames, 'a+') as output:
+with filesequence.open(filenames, limit=5e7, flag='a+') as output:
     # sequence.tail() may very well return an empty list
     entries = [dict(id=0)] + [json.loads(line) for line in output.tail()]
 
